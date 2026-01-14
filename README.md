@@ -113,9 +113,5 @@ Para ver la seguridad en acción, prueba estos usuarios precargados:
 
 ---
 
-## 📸 Capturas / Previsualización
-
-*(Espacio reservado para screenshots. Se recomienda agregar imágenes del Dashboard y el Formulario de Préstamos aquí)*
-
----
 > *Este proyecto demuestra la pasión por la calidad de software, desde la arquitectura del backend hasta el pixel-perfect del frontend.*
+> desarrollado por bruno giraudo
