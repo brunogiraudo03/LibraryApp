@@ -1,0 +1,82 @@
+<div class="flex min-h-screen bg-base-200/30">
+    <app-sidebar></app-sidebar>
+    <main class="flex-1 ml-64 p-4 md:p-8 flex items-center justify-center transition-all duration-300">
+        <div class="card glass w-full max-w-xl shadow-2xl animate-fade-in border border-white/20">
+            <div class="card-body p-8 md:p-10">
+                <h2
+                    class="text-3xl font-extrabold mb-8 text-center bg-gradient-to-br from-primary to-secondary bg-clip-text text-transparent">
+                    Nuevo Préstamo</h2>
+
+                <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col gap-5">
+                    <!-- User Select -->
+                    <div class="form-control w-full">
+                        <label class="label font-bold text-base-content/70 pb-1">
+                            <span class="label-text">Usuario</span>
+                        </label>
+                        <select formControlName="usuarioId"
+                            class="select select-bordered w-full h-12 bg-base-50/50 backdrop-blur-sm border-base-content/20 focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl transition-all">
+                            <option value="" disabled selected>Seleccione un usuario</option>
+                            @for(user of users(); track user.id) {
+                            <option [value]="user.id">{{ user.nombre }} ({{ user.email }})</option>
+                            }
+                        </select>
+                    </div>
+
+                    <!-- Book Select -->
+                    <div class="form-control w-full">
+                        <label class="label font-bold text-base-content/70 pb-1">
+                            <span class="label-text">Libro</span>
+                        </label>
+                        <select formControlName="libroId"
+                            class="select select-bordered w-full h-12 bg-base-50/50 backdrop-blur-sm border-base-content/20 focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl transition-all">
+                            <option value="" disabled selected>Seleccione un libro</option>
+                            @for(book of books(); track book.id) {
+                            <option [value]="book.id" [disabled]="book.stock === 0"
+                                [class.text-base-content-disabled]="book.stock === 0">
+                                {{ book.titulo }} (Stock: {{ book.stock }})
+                            </option>
+                            }
+                        </select>
+                    </div>
+
+                    <!-- Days Input -->
+                    <div class="form-control w-full">
+                        <label class="label font-bold text-base-content/70 pb-1">
+                            <span class="label-text">Días de Préstamo</span>
+                        </label>
+                        <input type="number" formControlName="diasPrestamo"
+                            class="input input-bordered w-full h-12 bg-base-50/50 backdrop-blur-sm border-base-content/20 focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl transition-all font-bold text-lg" />
+                    </div>
+
+                    <!-- Error -->
+                    @if (errorMessage) {
+                    <div role="alert"
+                        class="alert alert-error text-sm rounded-xl border-none bg-error/10 text-error mt-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>{{ errorMessage }}</span>
+                    </div>
+                    }
+
+                    <!-- Actions -->
+                    <div class="card-actions justify-end mt-8 grid grid-cols-2 gap-4">
+                        <a routerLink="/manage-loans"
+                            class="btn btn-ghost hover:bg-base-content/10 h-12 normal-case text-lg font-medium rounded-xl">Cancelar</a>
+                        <button type="submit" [disabled]="form.invalid || isSubmitting()"
+                            class="btn btn-primary shadow-lg shadow-primary/30 h-12 normal-case text-lg font-bold rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:scale-100">
+                            @if (isSubmitting()) {
+                            <span class="loading loading-spinner loading-sm"></span>
+                            Confirmando...
+                            } @else {
+                            Confirmar
+                            }
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>

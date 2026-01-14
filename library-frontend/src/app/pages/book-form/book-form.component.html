@@ -1,0 +1,138 @@
+<div class="flex min-h-screen bg-base-200/30">
+    <app-sidebar></app-sidebar>
+    <main class="flex-1 ml-64 p-4 md:p-8 flex items-center justify-center transition-all duration-300">
+        <div class="card glass w-full max-w-2xl shadow-2xl animate-fade-in border border-white/20">
+            <div class="card-body p-8 md:p-10">
+                <h2
+                    class="text-3xl font-extrabold mb-8 text-center bg-gradient-to-br from-primary to-secondary bg-clip-text text-transparent">
+                    @if(isEditMode()) { Editar Libro } @else { Nuevo Libro }
+                </h2>
+
+                <form [formGroup]="bookForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-6">
+                    <!-- Title -->
+                    <div class="form-control w-full">
+                        <label class="label font-bold text-base-content/70 pb-1">
+                            <span class="label-text">Título del Libro</span>
+                        </label>
+                        <input type="text" placeholder="Ej: Cien Años de Soledad"
+                            class="input input-bordered w-full h-12 bg-base-50/50 backdrop-blur-sm border-base-content/20 focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl transition-all"
+                            formControlName="titulo" />
+                        @if (bookForm.get('titulo')?.touched && bookForm.get('titulo')?.invalid) {
+                        <span class="text-error text-xs mt-1 ml-1">El título es requerido</span>
+                        }
+                    </div>
+
+                    <!-- Grid ISBN/Estado -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="form-control w-full">
+                            <label class="label font-bold text-base-content/70 pb-1">
+                                <span class="label-text">ISBN</span>
+                            </label>
+                            <input type="text" placeholder="Ej: 978-3-16-148410-0"
+                                class="input input-bordered w-full h-12 bg-base-50/50 backdrop-blur-sm border-base-content/20 focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl transition-all"
+                                formControlName="isbn" />
+                            @if (bookForm.get('isbn')?.touched && bookForm.get('isbn')?.invalid) {
+                            <span class="text-error text-xs mt-1 ml-1">El ISBN es requerido</span>
+                            }
+                        </div>
+                        <div class="form-control w-full">
+                            <label class="label font-bold text-base-content/70 pb-1">
+                                <span class="label-text">Estado</span>
+                            </label>
+                            <select
+                                class="select select-bordered w-full h-12 bg-base-50/50 backdrop-blur-sm border-base-content/20 focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl transition-all"
+                                formControlName="estado">
+                                <option value="DISPONIBLE">DISPONIBLE</option>
+                                <option value="PRESTADO">PRESTADO</option>
+                                <option value="MANTENIMIENTO">MANTENIMIENTO</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Image URL -->
+                    <div class="form-control w-full">
+                        <label class="label font-bold text-base-content/70 pb-1">
+                            <span class="label-text">URL de Portada</span>
+                        </label>
+                        <input type="text" placeholder="Ej: https://example.com/cover.jpg"
+                            class="input input-bordered w-full h-12 bg-base-50/50 backdrop-blur-sm border-base-content/20 focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl transition-all"
+                            formControlName="imagenUrl" />
+                    </div>
+
+                    <!-- Description -->
+                    <div class="form-control w-full">
+                        <label class="label font-bold text-base-content/70 pb-1">
+                            <span class="label-text">Sinopsis / Trama</span>
+                        </label>
+                        <textarea
+                            class="textarea textarea-bordered h-32 bg-base-50/50 backdrop-blur-sm border-base-content/20 focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl transition-all"
+                            placeholder="Escribe una breve descripción de la trama..."
+                            formControlName="descripcion"></textarea>
+                    </div>
+
+                    <!-- Stock -->
+                    <div class="form-control w-full">
+                        <label class="label font-bold text-base-content/70 pb-1">
+                            <span class="label-text">Stock</span>
+                        </label>
+                        <input type="number" min="0" placeholder="Ej: 5"
+                            class="input input-bordered w-full h-12 bg-base-50/50 backdrop-blur-sm border-base-content/20 focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl transition-all"
+                            formControlName="stock" />
+                        @if (bookForm.get('stock')?.touched && bookForm.get('stock')?.invalid) {
+                        <span class="text-error text-xs mt-1 ml-1">El stock es requerido</span>
+                        }
+                    </div>
+
+                    <!-- Grid Autor/Category -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="form-control w-full">
+                            <label class="label font-bold text-base-content/70 pb-1">
+                                <span class="label-text">Autor</span>
+                                <a routerLink="/authors/new" class="label-text-alt link link-primary font-bold">+
+                                    Crear</a>
+                            </label>
+                            <select
+                                class="select select-bordered w-full h-12 bg-base-50/50 backdrop-blur-sm border-base-content/20 focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl transition-all"
+                                formControlName="autorId">
+                                <option [ngValue]="null" disabled selected>Selecciona un autor</option>
+                                @for (author of authors(); track author.id) {
+                                <option [value]="author.id">{{ author.nombre }}</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-control w-full">
+                            <label class="label font-bold text-base-content/70 pb-1">
+                                <span class="label-text">Categoría</span>
+                                <a routerLink="/categories/new" class="label-text-alt link link-primary font-bold">+
+                                    Crear</a>
+                            </label>
+                            <select
+                                class="select select-bordered w-full h-12 bg-base-50/50 backdrop-blur-sm border-base-content/20 focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl transition-all"
+                                formControlName="categoriaId">
+                                <option [ngValue]="null" disabled selected>Selecciona una categoría</option>
+                                @for (cat of categories(); track cat.id) {
+                                <option [value]="cat.id">{{ cat.nombre }}</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="card-actions justify-end mt-8 grid grid-cols-2 gap-4">
+                        <a routerLink="/manage-books"
+                            class="btn btn-ghost hover:bg-base-content/10 h-12 normal-case text-lg font-medium rounded-xl">Cancelar</a>
+                        <button type="submit" [disabled]="bookForm.invalid"
+                            class="btn btn-primary shadow-lg shadow-primary/30 h-12 normal-case text-lg font-bold rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all">
+                            @if(isEditMode()) { Actualizar } @else { Crear }
+                        </button>
+                    </div>
+
+                    @if (errorMessage()) {
+                    <div class="alert alert-error rounded-xl mt-4">
+                        <span>{{ errorMessage() }}</span>
+                    </div>
+                    }
+                </form>
+            </div>
+        </div>
+    </main>
+</div>

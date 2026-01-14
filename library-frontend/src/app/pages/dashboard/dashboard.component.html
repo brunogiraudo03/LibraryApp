@@ -1,0 +1,15 @@
+class="card bg-base-100 shadow-sm border border-base-200/50 hover:shadow-xl transition-all duration-300 group
+hover:-translate-y-1 glass">
+
+<figure class="px-4 pt-4 h-64 overflow-hidden relative">
+    <img [src]="book.imagenUrl || 'https://placehold.co/400x600/e2e8f0/1e293b?text=Sin+Portada'" [alt]="book.titulo"
+        class="rounded-xl object-cover w-full h-full shadow-md group-hover:scale-110 transition-transform duration-500"
+        onerror="this.src='https://placehold.co/400x600/e2e8f0/1e293b?text=Error+Carga'" />
+
+    <div class="absolute top-6 right-6 badge badge-lg shadow-lg font-bold border-none"
+        [ngClass]="(book.stock || 0) > 0 ? 'bg-success/90 text-white backdrop-blur' : 'bg-error/90 text-white backdrop-blur'">
+        {{ (book.stock || 0) > 0 ? 'Disponible' : 'Agotado' }}
+    </div>
+</figure>
+
+<div class="card-body p-6">

@@ -1,0 +1,22 @@
+// src/styles/design-tokens.scss
+
+/* Design Tokens */
+
+/* Colors */
+$color-primary: #3b82f6; // Tailwind blue-500
+$color-secondary: #10b981; // Tailwind green-500
+$color-accent: #f59e0b; // Tailwind amber-500
+$color-background: #f3f4f6; // Tailwind gray-100
+$color-surface: #ffffff;
+$color-surface-glass: rgba(255, 255, 255, 0.3);
+$color-text-primary: #1f2937; // gray-800
+$color-text-secondary: #4b5563; // gray-600
+
+/* Font */
+$font-family-base: 'Inter', system-ui, sans-serif;
+
+/* Spacing */
+$spacing-unit: 0.25rem; // 4px base unit
+
+/* Shadows */
+$shadow-glass: 0 4px 30px rgba(0, 0, 0, 0.1);

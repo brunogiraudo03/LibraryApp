@@ -1,0 +1,42 @@
+<div class="flex min-h-screen bg-base-200/30">
+    <app-sidebar></app-sidebar>
+    <main class="flex-1 ml-64 p-4 md:p-8 flex items-center justify-center transition-all duration-300">
+        <div class="card glass w-full max-w-lg shadow-2xl animate-fade-in border border-white/20">
+            <div class="card-body p-8 md:p-10">
+                <h2
+                    class="text-3xl font-extrabold mb-8 text-center bg-gradient-to-br from-primary to-secondary bg-clip-text text-transparent">
+                    @if(isEditMode()) { Editar Autor } @else { Nuevo Autor }
+                </h2>
+
+                <form [formGroup]="authorForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-5">
+                    <div class="form-control w-full">
+                        <label class="label font-bold text-base-content/70 pb-1">
+                            <span class="label-text">Nombre Completo</span>
+                        </label>
+                        <input type="text" placeholder="Ej: Gabriel García Márquez"
+                            class="input input-bordered w-full h-12 bg-base-50/50 backdrop-blur-sm border-base-content/20 focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl transition-all"
+                            formControlName="nombre" />
+                    </div>
+
+                    <div class="form-control w-full">
+                        <label class="label font-bold text-base-content/70 pb-1">
+                            <span class="label-text">Nacionalidad</span>
+                        </label>
+                        <input type="text" placeholder="Ej: Colombiano"
+                            class="input input-bordered w-full h-12 bg-base-50/50 backdrop-blur-sm border-base-content/20 focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl transition-all"
+                            formControlName="nacionalidad" />
+                    </div>
+
+                    <div class="card-actions justify-end mt-8 grid grid-cols-2 gap-4">
+                        <a routerLink="/authors"
+                            class="btn btn-ghost hover:bg-base-content/10 h-12 normal-case text-lg font-medium rounded-xl">Cancelar</a>
+                        <button type="submit" [disabled]="authorForm.invalid"
+                            class="btn btn-primary shadow-lg shadow-primary/30 h-12 normal-case text-lg font-bold rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all">
+                            Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>

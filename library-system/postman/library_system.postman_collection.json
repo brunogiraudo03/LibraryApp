@@ -1,0 +1,521 @@
+{
+    "info": {
+        "_postman_id": "b5742610-18f1-4c63-9520-27668636e053",
+        "name": "Library System API (RBAC & CRUD)",
+        "description": "Colección completa con Roles (Admin/Empleado) y todas las operaciones CRUD.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Auth",
+            "item": [
+                {
+                    "name": "Registrar Admin",
+                    "request": {
+                        "auth": {
+                            "type": "noauth"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n  \"nombre\": \"Super Admin\",\r\n  \"email\": \"admin@library.com\",\r\n  \"password\": \"admin123\",\r\n  \"role\": \"ADMIN\"\r\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/auth/register",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "register"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Registrar Empleado",
+                    "request": {
+                        "auth": {
+                            "type": "noauth"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n  \"nombre\": \"John Doe\",\r\n  \"email\": \"john@library.com\",\r\n  \"password\": \"123456\",\r\n  \"role\": \"EMPLEADO\"\r\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/auth/register",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "register"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Login",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "var jsonData = pm.response.json();",
+                                    "if (jsonData.token) {",
+                                    "    pm.environment.set(\"jwt_token\", jsonData.token);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "auth": {
+                            "type": "noauth"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n  \"email\": \"admin@library.com\",\r\n  \"password\": \"admin123\"\r\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/auth/login",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "login"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Usuarios (Admin Only)",
+            "item": [
+                {
+                    "name": "Listar Usuarios",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/usuarios",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "usuarios"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Eliminar Usuario",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/usuarios/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "usuarios",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Libros",
+            "item": [
+                {
+                    "name": "Listar Libros (Publico)",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/libros",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "libros"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Crear Libro",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n  \"titulo\": \"Harry Potter 1\",\r\n  \"isbn\": \"978-000001\",\r\n  \"stock\": 5,\r\n  \"autorId\": 1,\r\n  \"categoriaId\": 1\r\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/libros",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "libros"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Actualizar Libro",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n  \"titulo\": \"Harry Potter 1 (Edición Especial)\",\r\n  \"isbn\": \"978-000001\",\r\n  \"stock\": 10,\r\n  \"autorId\": 1,\r\n  \"categoriaId\": 1\r\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/libros/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "libros",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Eliminar Libro",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/libros/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "libros",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Autores y Categorias",
+            "item": [
+                {
+                    "name": "Crear Autor",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n  \"nombre\": \"J.K. Rowling\",\r\n  \"nacionalidad\": \"UK\"\r\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/autores",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "autores"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Listar Autores",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/autores",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "autores"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Actualizar Autor",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n  \"nombre\": \"J.K. Rowling (Updated)\",\r\n  \"nacionalidad\": \"Reino Unido\"\r\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/autores/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "autores",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Eliminar Autor",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/autores/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "autores",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Crear Categoria",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n  \"nombre\": \"Fantasía\",\r\n  \"descripcion\": \"\"\r\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/categorias",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "categorias"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Listar Categorias",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/categorias",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "categorias"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Actualizar Categoria",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n  \"nombre\": \"Fantasía Épica\",\r\n  \"descripcion\": \"Nueva descripción\"\r\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/categorias/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "categorias",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Eliminar Categoria",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/categorias/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "categorias",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Prestamos",
+            "item": [
+                {
+                    "name": "Listar Prestamos",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/prestamos",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "prestamos"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Registrar Prestamo",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n  \"usuarioId\": 1,\r\n  \"libroId\": 1,\r\n  \"diasPrestamo\": 7\r\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/prestamos",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "prestamos"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Devolver Prestamo",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/prestamos/1/devolucion",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "prestamos",
+                                "1",
+                                "devolucion"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "bearer",
+        "bearer": [
+            {
+                "key": "token",
+                "value": "{{jwt_token}}",
+                "type": "string"
+            }
+        ]
+    },
+    "event": []
+}
