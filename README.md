@@ -1,116 +1,121 @@
 # 📚 Sistema de Gestión de Bibliotecas (Library System)
 
-Bienvenido a **Library System**, una solución profesional y completa para la gestión eficiente de bibliotecas. Este proyecto Full-Stack implementa una arquitectura robusta, segura y escalable, diseñada para gestionar libros, autores, categorías, usuarios y préstamos con roles diferenciados.
+> **Portfolio Project**: Una solución Full-Stack moderna diseñada para demostrar la implementación de arquitecturas escalables, seguridad robusta y UX de alto nivel.
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg) ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-green.svg) ![Angular](https://img.shields.io/badge/Angular-17+-red.svg)
-
----
-
-## ✨ Características Principales
-
-*   **Gestión Documental**: CRUD completo para Libros, Autores y Categorías.
-*   **Gestión de Préstamos**: Flujo completo de solicitud (Empleados) y estado de stock en tiempo real.
-*   **Roles y Seguridad (RBAC)**:
-    *   🛡️ **ADMIN**: Acceso total al sistema.
-    *   👷 **EMPLEADO**: Gestión de préstamos y catálogos (sin permisos de administración de usuarios).
-    *   👤 **USUARIO**: Catálogo de solo lectura y visualización de disponibilidad.
-*   **UX/UI Premium**: Interfaz moderna, responsiva y estética construida con Angular, TailwindCSS y DaisyUI. Fallback inteligente de imágenes y modo oscuro elegante.
-*   **Validaciones Robustas**: Control de stock automático, validaciones de formularios reactivos y manejo de errores centralizado.
+![Angular](https://img.shields.io/badge/Angular-17%2B-dd0031?style=for-the-badge&logo=angular&logoColor=white) 
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-6db33f?style=for-the-badge&logo=spring&logoColor=white)
+![Java](https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Security](https://img.shields.io/badge/Spring_Security-RBAC-green?style=for-the-badge)
 
 ---
 
-## 🛠️ Stack Tecnológico
+## 👨‍💻 Sobre este Proyecto (Highlights Técnicos)
 
-### Backend (API REST)
-*   **Java 17**
-*   **Spring Boot 3**: Framework principal.
-*   **Spring Security + JWT**: Autenticación y autorización segura.
-*   **Spring Data JPA (Hibernate)**: Persistencia de datos.
-*   **H2 Database**: Base de datos en memoria (fácilmente migraable a MySQL/PostgreSQL).
-*   **Maven**: Gestión de dependencias.
+Este sistema fue construido con el objetivo de **resolver problemas reales de negocio** (gestión de inventario y préstamos) utilizando las mejores prácticas de la industria en 2024-2025.
 
-### Frontend (SPA)
-*   **Angular 17+**: Framework reactivo basado en Signals.
-*   **TailwindCSS**: Utilidades de estilo.
-*   **DaisyUI**: Componentes UI modernos.
-*   **Reactive Forms**: Manejo robusto de entradas de usuario.
+### 🌟 Competencias Demostradas
+*   **Arquitectura Limpia & Modular**: Separación estricta de responsabilidades (Controller-Service-Repository) en el Backend y componentes inteligentes/tontos en el Frontend.
+*   **Modern Frontend con Angular 17+**:
+    *   Uso extensivo de **Signals** para gestión de estado reactivo (fine-grained reactivity).
+    *   **Control Flow Syntax** (`@if`, `@for`) para templates más limpios y performantes.
+    *   Arquitectura basada en **Standalone Components**.
+*   **Seguridad Empresarial**:
+    *   Implementación de **JWT (JSON Web Tokens)** para autenticación stateless.
+    *   **RBAC (Role-Based Access Control)** estricto: El sistema discrimina a nivel de endpoint y de UI qué puede hacer cada rol (Admin vs Empleado vs Usuario).
+*   **UX/UI Design**:
+    *   Interfaz sofisticada con **TailwindCSS** y **DaisyUI**.
+    *   Feedback al usuario en tiempo real (Spinners de carga, validaciones reactivas, manejo de errores amigable).
+    *   **Fallback Strategies**: Manejo robusto de errores de carga de imágenes (Directivas y eventos `onerror`).
 
 ---
 
-## 🚀 Guía de Instalación y Ejecución
+## 📋 Casos de Uso Implementados (Business Logic)
 
-Sigue estos pasos para levantar el proyecto en tu entorno local.
+El sistema soporta flujos de negocio completos que demuestran la interacción compleja entre entidades:
+
+### 1. 🔄 Ciclo de Vida del Préstamo (Loan Lifecycle)
+*   **Actor**: Empleado (Employee).
+*   **Flujo**:
+    1.  El empleado busca un libro para un usuario.
+    2.  Verifica visualmente el badge de stock (Verde: Disponible / Rojo: Agotado).
+    3.  Inicia la solicitud: Selecciona al usuario desde un dropdown dinámico y define los días.
+    4.  **Confirmación**: Al guardar, el backend realiza una transacción atómica que:
+        *   Crea el registro del préstamo.
+        *   **Decrementa el stock** del libro automáticamente.
+        *   Calcula la fecha de devolución esperada.
+
+### 2. 🛡️ Administración de Catálogo Seguro
+*   **Actor**: Administrador (Admin).
+*   **Flujo**:
+    1.  Gestión total de Libros, Autores y Categorías.
+    2.  **Validaciones de Integridad**: El sistema impide eliminar un Autor si este tiene libros asociados, devolviendo errores descriptivos al frontend para guiar al usuario.
+    3.  Carga de metadatos enriquecidos (URL de imagen, descripción, ISBN).
+
+### 3. 🔍 Consulta Pública Reactiva
+*   **Actor**: Usuario Final (User).
+*   **Flujo**:
+    1.  Acceso al Dashboard en modo "Solo Lectura".
+    2.  Uso de filtros reactivos (Signals) para buscar libros por Categoría o Autor instantáneamente.
+    3.  **Visualización**: Puede ver detalles pero los botones de acción (Editar/Prestar) están ocultos y protegidos a nivel de código.
+
+---
+
+## 🛠️ Stack Tecnológico Detallado
+
+| Área | Tecnología | Uso/Patrón |
+| :--- | :--- | :--- |
+| **Backend** | **Java 17 + Spring Boot 3** | Core Framework |
+| **Persistencia** | **Spring Data JPA (Hibernate)** | ORM & Repository Pattern |
+| **Base de Datos** | **H2 (In-Memory)** | Demo / Testing (Migrable a MySQL) |
+| **Seguridad** | **Spring Security 6** | Auth Filters & JWT Providers |
+| **Frontend** | **Angular 17** | SPA Framework |
+| **Estilos** | **TailwindCSS** | Utility-First CSS |
+| **Cliente HTTP** | **HttpClient** | Consumo de API RESTful |
+| **Control de Versiones** | **Git** | Workflow profesional |
+
+---
+
+## 🚀 Cómo Ejecutar el Proyecto
+
+El proyecto está diseñado para levantarse en minutos ("Clone & Run").
 
 ### Prerrequisitos
-*   **Java JDK 17** o superior.
-*   **Node.js 18** o superior (y npm).
-*   **Git**.
+*   Java JDK 17+
+*   Node.js 18+
 
-### 1️⃣ Configuración del Backend
+### 1️⃣ Backend (API)
+```bash
+cd library-system
+./mvnw spring-boot:run
+```
+*El servidor inyectará datos de prueba automáticamente (`DataSeeder`) para que no arranques con la DB vacía.*
 
-1.  Navega al directorio del backend:
-    ```bash
-    cd library-system
-    ```
-2.  Ejecuta la aplicación con Maven:
-    ```bash
-    ./mvnw spring-boot:run
-    ```
-    *El servidor iniciará en `http://localhost:8080`.*
-    *(La base de datos se poblará automáticamente con datos de prueba gracias al `DataSeeder`).*
-
-### 2️⃣ Configuración del Frontend
-
-1.  Navega al directorio del frontend:
-    ```bash
-    cd library-frontend
-    ```
-2.  Instala las dependencias:
-    ```bash
-    npm install
-    ```
-3.  Inicia el servidor de desarrollo:
-    ```bash
-    npm start
-    ```
-    *La aplicación estará disponible en `http://localhost:4200`.*
+### 2️⃣ Frontend (Cliente)
+```bash
+cd library-frontend
+npm install
+npm start
+```
+Abrir navegador en: `http://localhost:4200`
 
 ---
 
-## 🔑 Credenciales de Acceso (Demo)
+## 🧪 Credenciales de Demo
 
-El sistema viene precargado con los siguientes usuarios para probar los diferentes roles:
+Para ver la seguridad en acción, prueba estos usuarios precargados:
 
-| Rol | Email | Contraseña | Permisos |
+| Rol | Usuario (Email) | Contraseña | Capacidades |
 | :--- | :--- | :--- | :--- |
-| **ADMIN** | `bruno@libreria.com` | `admin123` | Control Total |
-| **EMPLEADO** | `empleado@libreria.com` | `empleado123` | Gestión de Libros y Préstamos |
-| **USUARIO** | `usuario@libreria.com` | `usuario123` | Ver Catálogo |
+| 🛡️ **ADMIN** | `bruno@libreria.com` | `admin123` | **Acceso Total**: Puede crear usuarios, editar todo y ver métricas. |
+| 👷 **EMPLEADO** | `empleado@libreria.com` | `empleado123` | **Operativo**: Puede prestar libros y gestionar catálogo, pero no admin usuarios. |
+| 👤 **USUARIO** | `usuario@libreria.com` | `usuario123` | **Lectura**: Solo puede ver el catálogo y disponibilidad. |
 
 ---
 
-## 📂 Estructura del Proyecto
+## 📸 Capturas / Previsualización
 
-```
-/
-├── library-system/       # Código Fuente Backend (Spring Boot)
-│   ├── src/main/java/    # Controladores, Servicios, Modelos, Repositorios
-│   └── src/main/resources/ # Configuración (application.properties)
-│
-└── library-frontend/     # Código Fuente Frontend (Angular)
-    ├── src/app/
-    │   ├── components/   # Componentes reutilizables (Sidebar, Navbar)
-    │   ├── pages/        # Vistas principales (Dashboard, Users, Books)
-    │   ├── services/     # Comunicación con API (HTTP Client)
-    │   └── guards/       # Protección de rutas (AuthGuard, RoleGuard)
-```
+*(Espacio reservado para screenshots. Se recomienda agregar imágenes del Dashboard y el Formulario de Préstamos aquí)*
 
 ---
-
-## 🛡️ Notas Adicionales
-
-*   **Imágenes**: El sistema utiliza URLs de imágenes. Si una imagen falla, el frontend tiene un sistema de fallback automático.
-*   **Base de Datos**: Por defecto usa H2 (en memoria). Reiniciar el backend reseteará los datos a menos que cambies la configuración en `application.properties`.
-
----
-⚡ *Desarrollado con pasión y altos estándares de calidad.*
+> *Este proyecto demuestra la pasión por la calidad de software, desde la arquitectura del backend hasta el pixel-perfect del frontend.*
